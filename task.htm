@@ -120,3 +120,10 @@ https://wooo.tw/cHZMZ0a
 By 口憐@班尼
 
 </pre>
+
+<script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script>
+<script>
+let pre = $('pre');
+let regex = /(https?:\/\/([-\w\.]+)+(:\d+)?(\/([\w\/_\.]*(\?\S+)?)?)?)/ig
+pre.html(pre.text().replace(regex, "<a href='$1' target='_blank'>$1</a>"));
+</script>
