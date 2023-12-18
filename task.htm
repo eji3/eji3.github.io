@@ -1,5 +1,5 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<style>pre{font-size:1.5em}</style>
+<style>pre{font-size:2em}</style>
 
 <pre>
 
@@ -127,6 +127,6 @@ By 口憐@班尼
 <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script>
 <script>
 let pre = $('pre');
-let regex = /https?:\/\/.+$/igm
-pre.html(pre.text().replace(regex, "<a href='$1' target='_blank'>$1</a>"));
+let regex = /(https?:\/\/.+$)/igm
+pre.html(pre.text().replace(regex, '<a href="$1" target="_blank">$1</a>'));
 </script>
