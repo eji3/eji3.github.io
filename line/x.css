@@ -1,0 +1,11 @@
+﻿p {
+    counter-reset: num;
+}
+a {
+    font-size: 20;
+    white-space: nowrap;
+}
+p a[href^=http]::before {
+    counter-increment: num; 
+    content: '連結 ' counter(num);
+}
