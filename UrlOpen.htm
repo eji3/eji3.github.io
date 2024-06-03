@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>多行網址開啟新視窗</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+  <textarea id="urls" style="width: 100%;height: 80vh"></textarea><br>
+  <button onclick="openUrls()">開啟</button>
+
+  <script>
+    function openUrls() {
+      let textarea = document.getElementById('urls');
+      let urls = textarea.value.split('\n');
+      let pattern = /^https?:\/\/[^\s/$.?#].[^\s]*$/i;
+    
+      for (var url of urls) {
+        url = url.trim();
+        
+        if (url !== '' && pattern.test(url)) {
+          window.open(url);
+        }
+      }
+    }
+  </script>
+</body>
+</html>
