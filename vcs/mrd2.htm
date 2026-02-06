@@ -16,9 +16,9 @@
             <hr>
             <div class="bg-white rounded-4">
                <p class="py-3 text-center">
-                  <button class="border-0 bg-white" onclick="prev()">◀️</button>
+                  <button class="border-0 bg-white" id="btnPrev" onclick="prev()">◀️</button>
                   <img class="mx-2" style="max-width:60vw;height:7em;" id="bc">
-                  <button class="border-0 bg-white" onclick="next()">▶️</button>
+                  <button class="border-0 bg-white" id="btnNext" onclick="next()">▶️</button>
                </p>
             </div>
             <hr>
@@ -64,7 +64,6 @@
          function loadBarcodes() {
              const raw = document.getElementById('inputData').value;
          
-             // 支援「逗號 / 換行」
              list = raw
                  .split(/[\n,]/)
                  .map(x => x.trim())
@@ -79,18 +78,24 @@
          
              document.getElementById('bc').src =
                  `https://barcodeapi.org/api/128/${encodeURIComponent(list[index])}`;
+         
+             // 控制按鈕狀態
+             document.getElementById('btnPrev').disabled = (index === 0);
+             document.getElementById('btnNext').disabled = (index === list.length - 1);
          }
          
          function prev() {
-             if (list.length === 0) return;
-             index = (index - 1 + list.length) % list.length;
-             show();
+             if (index > 0) {
+                 index--;
+                 show();
+             }
          }
          
          function next() {
-             if (list.length === 0) return;
-             index = (index + 1) % list.length;
-             show();
+             if (index < list.length - 1) {
+                 index++;
+                 show();
+             }
          }
       </script>
    </body>
