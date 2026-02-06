@@ -15,10 +15,10 @@
             </div>
             <hr>
             <div class="bg-white rounded-4">
-               <p class="px-5 py-3 text-center">
-                  <button onclick="prev()">◀️</button>
+               <p class="py-3 text-center">
+                  <button class="border-0 bg-white" onclick="prev()">◀️</button>
                   <img class="w-100 mx-2" id="bc">
-                  <button onclick="next()">▶️</button>
+                  <button class="border-0 bg-white" onclick="next()">▶️</button>
                </p>
             </div>
             <hr>
@@ -54,8 +54,8 @@
                <li>客服專線：0800-527-000(我愛吃甜甜圈)，週一至週日 09:00-22:00。</li>
             </ol>
          </div>
-         <textarea id="inputData" class="form-control mb-2" rows="16" cols="16">${'\n'.repeat(20)}</textarea>
-         <button onclick="loadBarcodes()">載入</button>
+         <textarea id="inputData" class="form-control mb-2" rows="20" cols="16">\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n</textarea>
+         <button class="btn btn-light" onclick="loadBarcodes()">載入</button>
       </div>
       <script>
          let list = [];
