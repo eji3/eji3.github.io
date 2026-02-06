@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <title>票券</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+   </head>
+   <body>
+      <div class="container bg-light">
+         <div class="p-3">
+            <div class="d-flex">
+               <img style="width:100px" src="https://cdn.uniopen.com/coupons/MOD_COUPON_288x288_1765156892946.png">
+               <h3 class="ps-3">【週三 i 好康】</h3>
+            </div>
+            <hr>
+            <div class="bg-white rounded-4">
+               <p class="px-5 py-3 text-center">
+                  <button onclick="prev()">◀️</button>
+                  <img class="w-100 mx-2" id="bc">
+                  <button onclick="next()">▶️</button>
+               </p>
+            </div>
+            <hr>
+            <p>
+               本券限兌換42元甜甜圈1個，可補差價換購價高甜甜圈、派、瑪芬、糰子系列商品、現做飲品(不包含罐裝飲品、牛奶、水)，不適用冰品、物販商品、禮盒禮品等，不得與其他優惠券、門市行銷活動合併使用(詳細使用規則請見使用說明)。
+            </p>
+            <dl class="row border-bottom">
+               <dd class="col-3">商品內容</dd>
+               <dt class="col-9">Mister Donut 42元甜甜圈1入</dt>
+            </dl>
+            <dl class="row border-bottom">
+               <dd class="col-3">使用期限</dd>
+               <dt class="col-9">2025/12/10 13:00 ~ 2026/12/31 23:59</dt>
+            </dl>
+            <dl class="row border-bottom">
+               <dd class="col-3">領取時間</dd>
+               <dt class="col-9">2026/01/28 13:00</dt>
+            </dl>
+            <dl class="row border-bottom">
+               <dd class="col-3">使用通路</dd>
+               <dt class="col-9">全台 Mister Donut 直營門市，不適用7-Eleven 與 Semeur門市內的 Mister Donut 專櫃、外送外賣、預訂服務、及部分百貨商場專櫃。(不適用門市: 花蓮遠百門市、松山門市、南港門市、LaLaport南港門市、遠百A13門市、101門市、林口三井門市、兒童新樂園門市、大葉高島屋門市、板橋大遠百門市)。門市地址資訊：https://www.misterdonut.com.tw/List/門市情報-220</dt>
+            </dl>
+            <ol>
+               <li>本券限兌換42元甜甜圈1個，可補差價換購價高甜甜圈、派、瑪芬、糰子系列商品、現做飲品(不包含罐裝飲品、牛奶、水)，不適用冰品、物販商品、禮盒禮品等，不得與其他優惠券、門市行銷活動合併使用。</li>
+               <li>結帳前請出示本券，不接受手抄或口說序號方式兌換。</li>
+               <li>兌換地點：全台 Mister Donut 直營門市，不適用7-ELEVEN Mister Donut 專櫃、外送外賣、預訂服務。(不適用門市: 花蓮遠百門市、松山門市、南港門市、LaLaport南港門市、遠百A13門市、101門市、林口三井門市、兒童新樂園門市、大葉高島屋門市、板橋大遠百門市)。門市地址資訊：https://www.misterdonut.com.tw/List/門市情報-220</li>
+               <li>請於指定日期前兌換，不得零售或轉售。</li>
+               <li>本券為不記名，任何人持本券皆可使用，請自行妥善保管，如遭他人盜用，本券不再補發。</li>
+               <li>不可折換現金，乙張限兌換乙次。所兌換之商品或折抵消費之金額不予開立統一發票。</li>
+               <li>本券為有價證券，請勿擅自偽造、變造，以免觸犯刑責。</li>
+               <li>商品為每日新鮮出爐，以門市現場陳列販售之品項為準，如商品當日售完，請至鄰近門市兌換或擇日再行兌換。</li>
+               <li>本公司保留最終解釋及決定權利。</li>
+               <li>客服專線：0800-527-000(我愛吃甜甜圈)，週一至週日 09:00-22:00。</li>
+            </ol>
+         </div>
+         <textarea id="inputData" class="form-control mb-2" rows="16" cols="16">${'\n'.repeat(20)}</textarea>
+         <button onclick="loadBarcodes()">載入</button>
+      </div>
+      <script>
+         let list = [];
+         let index = 0;
+         
+         function loadBarcodes() {
+             const raw = document.getElementById('inputData').value;
+         
+             // 支援「逗號 / 換行」
+             list = raw
+                 .split(/[\n,]/)
+                 .map(x => x.trim())
+                 .filter(x => x);
+         
+             index = 0;
+             show();
+         }
+         
+         function show() {
+             if (list.length === 0) return;
+         
+             document.getElementById('bc').src =
+                 `https://barcodeapi.org/api/128/${encodeURIComponent(list[index])}`;
+         }
+         
+         function prev() {
+             if (list.length === 0) return;
+             index = (index - 1 + list.length) % list.length;
+             show();
+         }
+         
+         function next() {
+             if (list.length === 0) return;
+             index = (index + 1) % list.length;
+             show();
+         }
+      </script>
+   </body>
+</html>
