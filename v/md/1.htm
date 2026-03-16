@@ -90,6 +90,16 @@
       <button class="btn btn-light" onclick="loadBarcodes()">載入</button>
     </div>
     <script>
+      const k = new URLSearchParams(window.location.search).get('k');
+      if (k) {
+        document.getElementById('bc').src = `https://barcodeapi.org/api/128/${up.get('k')}`;
+        hideInputData();
+      }
+
+      function hideInputData() {
+        document.getElementById("inputData").style.display = "none";
+      }
+
       let list = [];
       let index = 0;
 
@@ -103,6 +113,7 @@
 
         index = 0;
         show();
+        hideInputData();
       }
 
       function show() {
@@ -113,7 +124,6 @@
         // 控制按鈕狀態
         document.getElementById("btnPrev").disabled = index === 0;
         document.getElementById("btnNext").disabled = index === list.length - 1;
-        document.getElementById("inputData").style.display = "none";
       }
 
       function prev() {
