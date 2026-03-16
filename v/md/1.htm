@@ -91,20 +91,21 @@
     </div>
     <script>
       const k = new URLSearchParams(window.location.search).get('k');
+      const inputData = document.getElementById("inputData");
       if (k) {
-        document.getElementById('bc').src = `https://barcodeapi.org/api/128/${up.get('k')}`;
+        document.getElementById('bc').src = `https://barcodeapi.org/api/128/${k}`;
         hideInputData();
       }
 
       function hideInputData() {
-        document.getElementById("inputData").style.display = "none";
+        inputData.style.display = "none";
       }
 
       let list = [];
       let index = 0;
 
       function loadBarcodes() {
-        const raw = document.getElementById("inputData").value;
+        const raw = inputData.value;
 
         list = raw
           .split(/[\n,]/)
