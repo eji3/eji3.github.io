@@ -94,7 +94,7 @@
       const k = new URLSearchParams(window.location.search).get('k');
       const inputData = document.getElementById("inputData");
       if (k) {
-        JsBarcode("#barcode", k, {format: "CODE128A"});
+        JsBarcode("#bc", k, {format: "CODE128A"});
         hideInputData();
       }
 
