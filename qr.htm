@@ -47,7 +47,7 @@
     readonly
   >
 
-  <img id="qrcode" alt="QR Code">
+  <img id="qrcode" alt="QR Code" hidden>
 
   <p><mark>長按 QR 圖片即可分享或儲存</mark></p>
 
@@ -139,6 +139,7 @@
 
           qrImage.src = png
           qrImage.hidden = false
+          video.hidden = true
 
           scanBtns.forEach(btn => btn.disabled = false)
 
@@ -161,6 +162,7 @@
 
       video.pause()
       video.srcObject = null
+      video.hidden = true
     }
 
     window.addEventListener('beforeunload', stopCamera)
