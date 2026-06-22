@@ -20,62 +20,77 @@
 
     video {
       width: 100%;
-      max-width: 360px;
       border-radius: 1em;
-      margin: 1em 0;
       background: #000;
     }
 
     #result {
-      margin: 1em 0;
-      word-break: break-all;
+      width: 100%;
     }
 
     #qrcode {
-      display: none;
-      width: 280px;
-      max-width: 100%;
+      width: 100%;
     }
   </style>
 </head>
 
 <body>
 
-  <p><button id="scanBtn">開始掃描</button></p>
+  <button class="scan-btn">開始掃描</button></p>
 
-  <video id="video" playsinline></video>
+  <p><video id="video" playsinline hidden></video></p>
 
-  <p id="result"></p>
+  <input
+    id="result"
+    type="text"
+    placeholder="掃描結果會顯示在這裡"
+    readonly
+  >
 
   <img id="qrcode" alt="QR Code">
 
-  <mark>
-    長按 QR 圖片即可分享或儲存
-  </mark>
+  <p><mark>長按 QR 圖片即可分享或儲存</mark></p>
+
+  <button class="scan-btn">重新掃描</button>
 
   <script>
-    const scanBtn = document.querySelector('#scanBtn')
     const video = document.querySelector('#video')
     const result = document.querySelector('#result')
     const qrImage = document.querySelector('#qrcode')
+    const scanBtns = document.querySelectorAll('.scan-btn')
 
-    let stream
-    let detector
+    let stream = null
+    let detector = null
     let scanning = false
 
     if (!('BarcodeDetector' in window)) {
       alert('此瀏覽器不支援 BarcodeDetector API')
-      scanBtn.disabled = true
+
+      scanBtns.forEach(btn => btn.disabled = true)
     } else {
       detector = new BarcodeDetector({
         formats: ['qr_code']
       })
     }
 
-    scanBtn.addEventListener('click', startScan)
+    scanBtns.forEach(btn => {
+      btn.addEventListener('click', startScan)
+    })
 
     async function startScan() {
-      scanBtn.disabled = true
+      if (scanning) return
+
+      stopCamera()
+
+      scanning = true
+
+      result.value = ''
+      qrImage.src = ''
+      qrImage.hidden = true
+
+      video.hidden = false
+
+      scanBtns.forEach(btn => btn.disabled = true)
 
       try {
         stream = await navigator.mediaDevices.getUserMedia({
@@ -87,13 +102,18 @@
         })
 
         video.srcObject = stream
+
         await video.play()
 
-        scanning = true
         detectLoop()
       } catch (err) {
+        scanning = false
+
+        video.hidden = true
+
+        scanBtns.forEach(btn => btn.disabled = false)
+
         alert(`無法開啟相機：${err.message}`)
-        scanBtn.disabled = false
       }
     }
 
@@ -103,14 +123,14 @@
       try {
         const codes = await detector.detect(video)
 
-        if (codes.length > 0) {
+        if (codes.length) {
           const text = codes[0].rawValue
 
           scanning = false
 
           stopCamera()
 
-          result.textContent = text
+          result.value = text
 
           const png = await QRCode.toDataURL(text, {
             width: 512,
@@ -118,7 +138,9 @@
           })
 
           qrImage.src = png
-          qrImage.style.display = 'block'
+          qrImage.hidden = false
+
+          scanBtns.forEach(btn => btn.disabled = false)
 
           return
         }
@@ -130,7 +152,15 @@
     }
 
     function stopCamera() {
-      stream?.getTracks().forEach(track => track.stop())
+      scanning = false
+
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop())
+        stream = null
+      }
+
+      video.pause()
+      video.srcObject = null
     }
 
     window.addEventListener('beforeunload', stopCamera)
