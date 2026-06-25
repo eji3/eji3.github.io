@@ -1,7 +1,8 @@
 const k = new URLSearchParams(window.location.search).get('k')
 const txt = document.getElementById("txt")
 if (k) {
-    JsBarcode("#bc", k, {format: "CODE128A"})
+    const format = document.getElementById('bc').dataset.format
+    JsBarcode("#bc", k, {format: format})
     hidetxt()
 }
 
